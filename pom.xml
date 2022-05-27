@@ -14,7 +14,7 @@
 	<name>mindpress-serv</name>
 	<description>mindpress service</description>
 	<properties>
-		<java.version></java.version>
+		<java.version>8</java.version>
 	</properties>
 	<dependencies>
 		<dependency>
