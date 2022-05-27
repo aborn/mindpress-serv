@@ -1,4 +1,4 @@
-package com.github.aborn.mindpress.mindpressserv;
+package com.github.aborn.mindpress;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
