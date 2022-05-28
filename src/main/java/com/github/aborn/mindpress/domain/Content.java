@@ -28,20 +28,20 @@ public class Content extends BaseEntity implements Serializable {
 
     @Column(name = "articleid",unique = true,nullable = false)
     @NotBlank
-    @ApiModelProperty(value = "文章唯一标识")
+    @ApiModelProperty(value = "article id")
     private String articleid;
 
     @Column(name = "title")
-    @ApiModelProperty(value = "文章标题")
+    @ApiModelProperty(value = "title")
     private String title;
 
     @Column(name = "desc",nullable = false)
     @NotBlank
-    @ApiModelProperty(value = "文章描述")
+    @ApiModelProperty(value = "article description")
     private String desc;
 
     @Column(name = "content")
-    @ApiModelProperty(value = "Markdown文本内容")
+    @ApiModelProperty(value = "Markdown content")
     private String content;
 
     public void copy(Content source) {

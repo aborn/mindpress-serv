@@ -3,6 +3,7 @@ package com.github.aborn.mindpress.service.impl;
 import com.github.aborn.mindpress.domain.Content;
 import com.github.aborn.mindpress.inf.exception.EntityExistException;
 import com.github.aborn.mindpress.inf.utils.PageUtil;
+import com.github.aborn.mindpress.inf.utils.QueryHelp;
 import com.github.aborn.mindpress.inf.utils.ValidationUtil;
 import com.github.aborn.mindpress.repository.ContentRepository;
 import com.github.aborn.mindpress.service.ContentService;
@@ -20,7 +21,7 @@ import java.util.Map;
 
 /**
  * @author aborn
- * @description 服务实现
+ * @description MarkdownContent Service
  * @date 2022-05-28
  **/
 @Service

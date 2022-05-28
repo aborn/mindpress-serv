@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
  **/
 @RestController
 @RequiredArgsConstructor
-@Api(tags = "Markdown内容管理")
+@Api(tags = "Markdown file content controller")
 @RequestMapping("/api/content")
 public class ContentController {
 
