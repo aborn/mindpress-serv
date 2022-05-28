@@ -1,5 +1,6 @@
 package com.github.aborn.mindpress.service.dto;
 
+import com.github.aborn.mindpress.inf.annotation.Query;
 import lombok.Data;
 
 /**
@@ -8,4 +9,10 @@ import lombok.Data;
  **/
 @Data
 public class ContentQueryCriteria {
+
+    @Query
+    private String id;
+
+    @Query
+    private String articleid;
 }
