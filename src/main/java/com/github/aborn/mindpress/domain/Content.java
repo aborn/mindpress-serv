@@ -17,7 +17,7 @@ import java.io.Serializable;
  **/
 @Entity
 @Data
-@Table(name = "md_content")
+@Table(name = "md_markdown_content")
 public class Content extends BaseEntity implements Serializable {
 
     @Id
@@ -30,15 +30,6 @@ public class Content extends BaseEntity implements Serializable {
     @NotBlank
     @ApiModelProperty(value = "article id")
     private String articleid;
-
-    @Column(name = "title")
-    @ApiModelProperty(value = "title")
-    private String title;
-
-    @Column(name = "desc",nullable = false)
-    @NotBlank
-    @ApiModelProperty(value = "article description")
-    private String desc;
 
     @Column(name = "content")
     @ApiModelProperty(value = "Markdown content")

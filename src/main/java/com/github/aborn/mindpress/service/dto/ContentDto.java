@@ -24,16 +24,6 @@ public class ContentDto extends BaseDTO implements Serializable {
     private String articleid;
 
     /**
-     * 文章标题
-     */
-    private String title;
-
-    /**
-     * 文章描述
-     */
-    private String desc;
-
-    /**
      * Markdown文本内容
      */
     private String content;
