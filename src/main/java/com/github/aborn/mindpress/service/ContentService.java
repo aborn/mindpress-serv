@@ -38,6 +38,8 @@ public interface ContentService {
      */
     ContentDto findById(Long id);
 
+    ContentDto findByArticleId(String id);
+
     /**
     * 创建
     * @param resources /

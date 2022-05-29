@@ -2,6 +2,7 @@ package com.github.aborn.mindpress.rest;
 
 import com.github.aborn.mindpress.domain.Content;
 import com.github.aborn.mindpress.service.ContentService;
+import com.github.aborn.mindpress.service.dto.ContentDto;
 import com.github.aborn.mindpress.service.dto.ContentQueryCriteria;
 import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
@@ -37,6 +38,13 @@ public class ContentController {
     public ResponseEntity<Object> updateContent(@Validated @RequestBody Content resources) {
         contentService.update(resources);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @GetMapping(value = "{id}")
+    public ResponseEntity<Object> queryContent(@PathVariable("id") String articleid) {
+        ContentDto dto = contentService.findByArticleId(articleid);
+        return dto == null ? ResponseEntity.badRequest().build() :
+                new ResponseEntity<>(contentService.findByArticleId(articleid), HttpStatus.OK);
     }
 
     @DeleteMapping

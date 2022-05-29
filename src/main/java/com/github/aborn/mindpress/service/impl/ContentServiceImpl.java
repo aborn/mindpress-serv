@@ -51,6 +51,14 @@ public class ContentServiceImpl implements ContentService {
     }
 
     @Override
+    @Transactional
+    public ContentDto findByArticleId(String id) {
+        Content content = contentRepository.findByArticleid(id);
+        return content == null ? null : contentMapper.toDto(content);
+    }
+
+
+    @Override
     @Transactional(rollbackFor = Exception.class)
     public ContentDto create(Content resources) {
         if (contentRepository.findByArticleid(resources.getArticleid()) != null) {
