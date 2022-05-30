@@ -4,6 +4,7 @@ import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
 import java.io.Serializable;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -23,6 +24,13 @@ public class BaseResponse<T> implements Serializable {
 
     public static <T> BaseResponse<T> success(T data) {
         return generateResponse(true, 200, "操作成功", data, null);
+    }
+
+    public void addExt(String key, Object value) {
+        if (this.ext == null) {
+            this.ext = new HashMap<>();
+        }
+        this.ext.put(key, value);
     }
 
     private static <T> BaseResponse<T> generateResponse(boolean success, int code, String msg,

@@ -53,6 +53,14 @@ public class ContentController {
             resources.setUpdateBy("aborn");
             resources.setArticleid(MarkdownUtils.getId(resources.getContent()));
             dtoRes = contentService.create(resources);
+            if (dtoRes != null) {
+                res.addExt("articleid", dtoRes.getArticleid());
+                res.setMsg("create file success.");
+            } else {
+                res.setSuccess(false);
+                res.setCode(501);
+                res.setMsg("create file failed.");
+            }
         }
         return new ResponseEntity<>(res, HttpStatus.CREATED);
     }
