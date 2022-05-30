@@ -2,6 +2,7 @@ package com.github.aborn.mindpress.service.dto.vo;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.bean.copier.CopyOptions;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.github.aborn.mindpress.domain.Content;
 import com.github.aborn.mindpress.service.dto.ContentDto;
 import com.github.aborn.mindpress.service.dto.MarkdownMetaDto;
@@ -17,6 +18,8 @@ import java.io.Serializable;
 public class ContentVo extends ContentDto implements Serializable {
     private static final long serialVersionUID = 2371591328857612229L;
 
+    public ContentVo() {}
+
     public ContentVo(ContentDto dto, MarkdownMetaDto metaDto) {
         BeanUtil.copyProperties(dto, this, CopyOptions.create().setIgnoreNullValue(true));
         if (metaDto != null) {
@@ -25,10 +28,7 @@ public class ContentVo extends ContentDto implements Serializable {
         this.pub = metaDto.getIsPublic() != 0;
     }
 
-    public ContentDto getDto() {
-        return this;
-    }
-
+    @JsonIgnore
     public Content getContentDomain() {
         Content content = new Content();
         content.copyFromVo(this);
