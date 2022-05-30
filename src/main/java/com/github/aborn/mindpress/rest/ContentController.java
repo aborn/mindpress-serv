@@ -44,6 +44,7 @@ public class ContentController {
             if (dto != null) {
                 // 更新操作
                 contentService.update(resources);
+                res.setMsg("save content success, articleid=" + resources.getArticleid());
             } else {
                 res.setSuccess(false);
                 res.setCode(500);
@@ -58,15 +59,15 @@ public class ContentController {
                 dtoRes = contentService.create(resources);
                 if (dtoRes != null) {
                     res.addExt("articleid", dtoRes.getArticleid());
-                    res.setMsg("create file success.");
+                    res.setMsg("create file success! articleid=" + resources.getArticleid());
                 } else {
                     res.setSuccess(false);
                     res.setCode(501);
-                    res.setMsg("create file failed.");
+                    res.setMsg("create file failed! articleid=" + resources.getArticleid());
                 }
             } catch (EntityExistException e) {
                 res.addExt("articleid", resources.getArticleid());
-                res.setMsg("create file failed. file exists!");
+                res.setMsg("create file failed. file exists! articleid=" + resources.getArticleid());
                 res.setCode(502);
                 res.setSuccess(false);
             }

@@ -23,7 +23,7 @@ public class BaseResponse<T> implements Serializable {
     private Map<String, Object> ext;
 
     public static <T> BaseResponse<T> success(T data) {
-        return generateResponse(true, 200, "操作成功", data, null);
+        return generateResponse(true, 200, "success", data, null);
     }
 
     public void addExt(String key, Object value) {
