@@ -1,11 +1,13 @@
 package com.github.aborn.mindpress.rest;
 
 import com.github.aborn.mindpress.domain.Content;
+import com.github.aborn.mindpress.inf.base.BaseResponse;
 import com.github.aborn.mindpress.service.ContentService;
 import com.github.aborn.mindpress.service.dto.ContentDto;
 import com.github.aborn.mindpress.service.dto.ContentQueryCriteria;
 import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,13 +32,31 @@ public class ContentController {
     }
 
     @PostMapping
-    public ResponseEntity<Object> createContent(@Validated @RequestBody Content resources) {
-        return new ResponseEntity<>(contentService.create(resources), HttpStatus.CREATED);
+    @CrossOrigin(origins = "http://localhost:3000/")
+    public ResponseEntity<Object> createContent(@RequestBody Content resources) {
+        ContentDto dtoRes = null;
+        BaseResponse res = BaseResponse.success("success");
+        if (StringUtils.isNotBlank(resources.getArticleid())) {
+            ContentDto dto = contentService.findByArticleId(resources.getArticleid());
+
+            if (dto != null) {
+                // 更新操作
+                contentService.update(resources);
+            } else {
+                res.setSuccess(false);
+                res.setCode(500);
+                res.setMsg("file doesn't exists.");
+            }
+        } else {
+            dtoRes = contentService.create(resources);
+        }
+        return new ResponseEntity<>(res, HttpStatus.CREATED);
     }
 
     @PutMapping
     public ResponseEntity<Object> updateContent(@Validated @RequestBody Content resources) {
-        contentService.update(resources);
+        String articleId = resources.getArticleid();
+        // contentService.update(resources);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 

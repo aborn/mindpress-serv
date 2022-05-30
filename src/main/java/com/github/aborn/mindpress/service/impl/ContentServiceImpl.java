@@ -53,15 +53,16 @@ public class ContentServiceImpl implements ContentService {
     @Override
     @Transactional
     public ContentDto findByArticleId(String id) {
-        Content content = contentRepository.findByArticleid(id);
-        return content == null ? null : contentMapper.toDto(content);
+        Content content = contentRepository.findByArticleid(id).orElseGet(Content::new);
+        ValidationUtil.isNull(content.getId(), "Content", "id", id);
+        return contentMapper.toDto(content);
     }
 
 
     @Override
     @Transactional(rollbackFor = Exception.class)
     public ContentDto create(Content resources) {
-        if (contentRepository.findByArticleid(resources.getArticleid()) != null) {
+        if (contentRepository.findByArticleid(resources.getArticleid()).isPresent()) {
             throw new EntityExistException(Content.class, "articleid", resources.getArticleid());
         }
         return contentMapper.toDto(contentRepository.save(resources));
@@ -70,13 +71,8 @@ public class ContentServiceImpl implements ContentService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void update(Content resources) {
-        Content content = contentRepository.findById(resources.getId()).orElseGet(Content::new);
+        Content content = contentRepository.findByArticleid(resources.getArticleid()).orElseGet(Content::new);
         ValidationUtil.isNull(content.getId(), "Content", "id", resources.getId());
-        Content content1 = null;
-        content1 = contentRepository.findByArticleid(resources.getArticleid());
-        if (content1 != null && !content1.getId().equals(content.getId())) {
-            throw new EntityExistException(Content.class, "articleid", resources.getArticleid());
-        }
         content.copy(resources);
         contentRepository.save(content);
     }

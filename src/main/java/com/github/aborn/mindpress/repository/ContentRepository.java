@@ -4,6 +4,8 @@ import com.github.aborn.mindpress.domain.Content;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
+import java.util.Optional;
+
 /**
  * @author aborn
  * @date 2022-05-28
@@ -14,5 +16,5 @@ public interface ContentRepository extends JpaRepository<Content, Long>, JpaSpec
     * @param articleid /
     * @return /
     */
-    Content findByArticleid(String articleid);
+    Optional<Content> findByArticleid(String articleid);
 }
