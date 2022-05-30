@@ -1,15 +1,19 @@
 package com.github.aborn.mindpress.service.impl;
 
 import com.github.aborn.mindpress.domain.Content;
+import com.github.aborn.mindpress.domain.MarkdownMeta;
 import com.github.aborn.mindpress.inf.exception.EntityExistException;
 import com.github.aborn.mindpress.inf.utils.PageUtil;
 import com.github.aborn.mindpress.inf.utils.QueryHelp;
 import com.github.aborn.mindpress.inf.utils.ValidationUtil;
 import com.github.aborn.mindpress.repository.ContentRepository;
+import com.github.aborn.mindpress.repository.MarkdownMetaRepository;
 import com.github.aborn.mindpress.service.ContentService;
 import com.github.aborn.mindpress.service.dto.ContentDto;
 import com.github.aborn.mindpress.service.dto.ContentQueryCriteria;
+import com.github.aborn.mindpress.service.dto.vo.ContentVo;
 import com.github.aborn.mindpress.service.mapstruct.ContentMapper;
+import com.github.aborn.mindpress.service.mapstruct.MarkdownMetaMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -18,6 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 /**
  * @author aborn
@@ -29,7 +34,9 @@ import java.util.Map;
 public class ContentServiceImpl implements ContentService {
 
     private final ContentRepository contentRepository;
+    private final MarkdownMetaRepository metaRepository;
     private final ContentMapper contentMapper;
+    private final MarkdownMetaMapper metaMapper;
 
     @Override
     public Map<String, Object> queryAll(ContentQueryCriteria criteria, Pageable pageable) {
@@ -58,6 +65,16 @@ public class ContentServiceImpl implements ContentService {
         return contentMapper.toDto(content);
     }
 
+    @Override
+    public ContentVo queryContentVo(String articleid) {
+        Optional<Content> optionalContent = contentRepository.findByArticleid(articleid);
+        if (optionalContent.isPresent()) {
+            MarkdownMeta meta = metaRepository.findByArticleid(articleid);
+            return new ContentVo(contentMapper.toDto(optionalContent.get()), metaMapper.toDto(meta));
+        } else {
+            return null;
+        }
+    }
 
     @Override
     @Transactional(rollbackFor = Exception.class)

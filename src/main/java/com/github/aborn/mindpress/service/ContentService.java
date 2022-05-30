@@ -3,6 +3,7 @@ package com.github.aborn.mindpress.service;
 import com.github.aborn.mindpress.domain.Content;
 import com.github.aborn.mindpress.service.dto.ContentDto;
 import com.github.aborn.mindpress.service.dto.ContentQueryCriteria;
+import com.github.aborn.mindpress.service.dto.vo.ContentVo;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
@@ -39,6 +40,8 @@ public interface ContentService {
     ContentDto findById(Long id);
 
     ContentDto findByArticleId(String id);
+
+    ContentVo queryContentVo(String articleid);
 
     /**
     * 创建

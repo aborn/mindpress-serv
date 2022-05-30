@@ -5,8 +5,10 @@ import com.github.aborn.mindpress.inf.base.BaseResponse;
 import com.github.aborn.mindpress.inf.exception.EntityExistException;
 import com.github.aborn.mindpress.inf.utils.MarkdownUtils;
 import com.github.aborn.mindpress.service.ContentService;
+import com.github.aborn.mindpress.service.MarkdownMetaService;
 import com.github.aborn.mindpress.service.dto.ContentDto;
 import com.github.aborn.mindpress.service.dto.ContentQueryCriteria;
+import com.github.aborn.mindpress.service.dto.vo.ContentVo;
 import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
@@ -28,6 +30,8 @@ public class ContentController {
 
     private final ContentService contentService;
 
+    private final MarkdownMetaService markdownMetaService;
+
     @GetMapping
     public ResponseEntity<Object> queryContent(ContentQueryCriteria criteria, Pageable pageable) {
         return new ResponseEntity<>(contentService.queryAll(criteria, pageable), HttpStatus.OK);
@@ -35,14 +39,16 @@ public class ContentController {
 
     @PostMapping
     @CrossOrigin(origins = "http://localhost:3000/")
-    public ResponseEntity<Object> createContent(@RequestBody Content resources) {
+    public ResponseEntity<Object> createOrUpdateContent(@RequestBody Content resources) {
         ContentDto dtoRes = null;
         BaseResponse res = BaseResponse.success("success");
+
         if (StringUtils.isNotBlank(resources.getArticleid())) {
+            // update branch
             ContentDto dto = contentService.findByArticleId(resources.getArticleid());
 
             if (dto != null) {
-                // 更新操作
+                // update
                 contentService.update(resources);
                 res.setMsg("save content success, articleid=" + resources.getArticleid());
             } else {
@@ -51,6 +57,7 @@ public class ContentController {
                 res.setMsg("file doesn't exists.");
             }
         } else {
+            // create
             resources.setCreateBy("aborn");
             resources.setUpdateBy("aborn");
             resources.setArticleid(MarkdownUtils.getId(resources.getContent()));
@@ -85,9 +92,10 @@ public class ContentController {
 
     @GetMapping(value = "{id}")
     public ResponseEntity<Object> queryContent(@PathVariable("id") String articleid) {
-        ContentDto dto = contentService.findByArticleId(articleid);
-        return dto == null ? ResponseEntity.badRequest().build() :
-                new ResponseEntity<>(contentService.findByArticleId(articleid), HttpStatus.OK);
+        ContentVo contentVo = contentService.queryContentVo(articleid);
+
+        return contentVo == null ? ResponseEntity.badRequest().build() :
+                new ResponseEntity<>(contentVo, HttpStatus.OK);
     }
 
     @DeleteMapping
