@@ -27,17 +27,17 @@ public class MarkdownMeta extends BaseEntity implements Serializable {
     @ApiModelProperty(value = "ID")
     private Long id;
 
-    @Column(name = "articleid",unique = true,nullable = false)
+    @Column(name = "articleid", unique = true, nullable = false)
     @NotBlank
     @ApiModelProperty(value = "markdown article uniq id")
     private String articleid;
 
-    @Column(name = "title",nullable = false)
+    @Column(name = "title", nullable = false)
     @NotBlank
     @ApiModelProperty(value = "title")
     private String title;
 
-    @Column(name = "desc",nullable = false)
+    @Column(name = "`desc`", nullable = false)
     @NotBlank
     @ApiModelProperty(value = "description")
     private String desc;
