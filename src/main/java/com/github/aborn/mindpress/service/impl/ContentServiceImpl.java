@@ -11,6 +11,7 @@ import com.github.aborn.mindpress.repository.MarkdownMetaRepository;
 import com.github.aborn.mindpress.service.ContentService;
 import com.github.aborn.mindpress.service.dto.ContentDto;
 import com.github.aborn.mindpress.service.dto.ContentQueryCriteria;
+import com.github.aborn.mindpress.service.dto.MarkdownMetaDto;
 import com.github.aborn.mindpress.service.dto.vo.ContentVo;
 import com.github.aborn.mindpress.service.mapstruct.ContentMapper;
 import com.github.aborn.mindpress.service.mapstruct.MarkdownMetaMapper;
@@ -69,7 +70,7 @@ public class ContentServiceImpl implements ContentService {
     public ContentVo queryContentVo(String articleid) {
         Optional<Content> optionalContent = contentRepository.findByArticleid(articleid);
         if (optionalContent.isPresent()) {
-            MarkdownMeta meta = metaRepository.findByArticleid(articleid);
+            MarkdownMeta meta = metaRepository.findByArticleid(articleid).get();
             return new ContentVo(contentMapper.toDto(optionalContent.get()), metaMapper.toDto(meta));
         } else {
             return null;
@@ -87,11 +88,28 @@ public class ContentServiceImpl implements ContentService {
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void update(Content resources) {
+    public ContentVo create(ContentVo resources) {
+        if (contentRepository.findByArticleid(resources.getArticleid()).isPresent()) {
+            throw new EntityExistException(Content.class, "articleid", resources.getArticleid());
+        }
+        ContentDto contentDto = contentMapper.toDto(contentRepository.save(resources.getContentDomain()));
+        MarkdownMeta markdownMeta = metaRepository.findByArticleid(resources.getArticleid()).orElseGet(MarkdownMeta::new);
+        markdownMeta.copyFromVo(resources);
+        MarkdownMetaDto metaDto = metaMapper.toDto(metaRepository.save(markdownMeta));
+        return new ContentVo(contentDto, metaDto);
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void update(ContentVo resources) {
         Content content = contentRepository.findByArticleid(resources.getArticleid()).orElseGet(Content::new);
         ValidationUtil.isNull(content.getId(), "Content", "id", resources.getId());
-        content.copy(resources);
+        content.copyFromVo(resources);
         contentRepository.save(content);
+
+        MarkdownMeta markdownMeta = metaRepository.findByArticleid(resources.getArticleid()).orElseGet(MarkdownMeta::new);
+        markdownMeta.copyFromVo(resources);
+        metaRepository.save(markdownMeta);
     }
 
     @Override

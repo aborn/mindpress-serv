@@ -3,6 +3,7 @@ package com.github.aborn.mindpress.domain;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.bean.copier.CopyOptions;
 import com.github.aborn.mindpress.inf.base.BaseEntity;
+import com.github.aborn.mindpress.service.dto.vo.ContentVo;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
@@ -36,6 +37,10 @@ public class Content extends BaseEntity implements Serializable {
     private String content;
 
     public void copy(Content source) {
+        BeanUtil.copyProperties(source, this, CopyOptions.create().setIgnoreNullValue(true));
+    }
+
+    public void copyFromVo(ContentVo source) {
         BeanUtil.copyProperties(source, this, CopyOptions.create().setIgnoreNullValue(true));
     }
 }

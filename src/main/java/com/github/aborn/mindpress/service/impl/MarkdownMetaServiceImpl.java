@@ -2,25 +2,22 @@ package com.github.aborn.mindpress.service.impl;
 
 import com.github.aborn.mindpress.domain.MarkdownMeta;
 import com.github.aborn.mindpress.inf.exception.EntityExistException;
+import com.github.aborn.mindpress.inf.utils.PageUtil;
+import com.github.aborn.mindpress.inf.utils.QueryHelp;
 import com.github.aborn.mindpress.inf.utils.ValidationUtil;
-import lombok.RequiredArgsConstructor;
 import com.github.aborn.mindpress.repository.MarkdownMetaRepository;
 import com.github.aborn.mindpress.service.MarkdownMetaService;
 import com.github.aborn.mindpress.service.dto.MarkdownMetaDto;
 import com.github.aborn.mindpress.service.dto.MarkdownMetaQueryCriteria;
 import com.github.aborn.mindpress.service.mapstruct.MarkdownMetaMapper;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import com.github.aborn.mindpress.inf.utils.PageUtil;
-import com.github.aborn.mindpress.inf.utils.QueryHelp;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import java.util.List;
 import java.util.Map;
-import java.io.IOException;
-import javax.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
 
 /**
  * @author aborn
@@ -65,13 +62,8 @@ public class MarkdownMetaServiceImpl implements MarkdownMetaService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void update(MarkdownMeta resources) {
-        MarkdownMeta markdownMeta = markdownMetaRepository.findById(resources.getId()).orElseGet(MarkdownMeta::new);
+        MarkdownMeta markdownMeta = markdownMetaRepository.findByArticleid(resources.getArticleid()).orElseGet(MarkdownMeta::new);
         ValidationUtil.isNull( markdownMeta.getId(),"MarkdownMeta","id",resources.getId());
-        MarkdownMeta markdownMeta1 = null;
-        markdownMeta1 = markdownMetaRepository.findByArticleid(resources.getArticleid());
-        if(markdownMeta1 != null && !markdownMeta1.getId().equals(markdownMeta.getId())){
-            throw new EntityExistException(MarkdownMeta.class,"articleid",resources.getArticleid());
-        }
         markdownMeta.copy(resources);
         markdownMetaRepository.save(markdownMeta);
     }

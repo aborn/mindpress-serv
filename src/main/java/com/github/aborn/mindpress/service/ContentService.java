@@ -50,11 +50,13 @@ public interface ContentService {
     */
     ContentDto create(Content resources);
 
+    ContentVo create(ContentVo resources);
+
     /**
     * 编辑
     * @param resources /
     */
-    void update(Content resources);
+    void update(ContentVo resources);
 
     /**
     * 多选删除

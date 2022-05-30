@@ -2,6 +2,7 @@ package com.github.aborn.mindpress.service.dto.vo;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.bean.copier.CopyOptions;
+import com.github.aborn.mindpress.domain.Content;
 import com.github.aborn.mindpress.service.dto.ContentDto;
 import com.github.aborn.mindpress.service.dto.MarkdownMetaDto;
 import lombok.Data;
@@ -22,6 +23,16 @@ public class ContentVo extends ContentDto implements Serializable {
             BeanUtil.copyProperties(metaDto, this, CopyOptions.create().setIgnoreNullValue(true));
         }
         this.pub = metaDto.getIsPublic() != 0;
+    }
+
+    public ContentDto getDto() {
+        return this;
+    }
+
+    public Content getContentDomain() {
+        Content content = new Content();
+        content.copyFromVo(this);
+        return content;
     }
 
     /**

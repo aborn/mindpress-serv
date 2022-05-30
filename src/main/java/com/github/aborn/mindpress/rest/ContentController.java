@@ -39,8 +39,8 @@ public class ContentController {
 
     @PostMapping
     @CrossOrigin(origins = "http://localhost:3000/")
-    public ResponseEntity<Object> createOrUpdateContent(@RequestBody Content resources) {
-        ContentDto dtoRes = null;
+    public ResponseEntity<Object> createOrUpdateContent(@RequestBody ContentVo resources) {
+        ContentVo dtoRes = null;
         BaseResponse res = BaseResponse.success("success");
 
         if (StringUtils.isNotBlank(resources.getArticleid())) {
