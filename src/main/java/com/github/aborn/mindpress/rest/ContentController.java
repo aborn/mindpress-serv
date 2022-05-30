@@ -2,6 +2,7 @@ package com.github.aborn.mindpress.rest;
 
 import com.github.aborn.mindpress.domain.Content;
 import com.github.aborn.mindpress.inf.base.BaseResponse;
+import com.github.aborn.mindpress.inf.exception.EntityExistException;
 import com.github.aborn.mindpress.inf.utils.MarkdownUtils;
 import com.github.aborn.mindpress.service.ContentService;
 import com.github.aborn.mindpress.service.dto.ContentDto;
@@ -52,15 +53,24 @@ public class ContentController {
             resources.setCreateBy("aborn");
             resources.setUpdateBy("aborn");
             resources.setArticleid(MarkdownUtils.getId(resources.getContent()));
-            dtoRes = contentService.create(resources);
-            if (dtoRes != null) {
-                res.addExt("articleid", dtoRes.getArticleid());
-                res.setMsg("create file success.");
-            } else {
+
+            try {
+                dtoRes = contentService.create(resources);
+                if (dtoRes != null) {
+                    res.addExt("articleid", dtoRes.getArticleid());
+                    res.setMsg("create file success.");
+                } else {
+                    res.setSuccess(false);
+                    res.setCode(501);
+                    res.setMsg("create file failed.");
+                }
+            } catch (EntityExistException e) {
+                res.addExt("articleid", resources.getArticleid());
+                res.setMsg("create file failed. file exists!");
+                res.setCode(502);
                 res.setSuccess(false);
-                res.setCode(501);
-                res.setMsg("create file failed.");
             }
+
         }
         return new ResponseEntity<>(res, HttpStatus.CREATED);
     }
