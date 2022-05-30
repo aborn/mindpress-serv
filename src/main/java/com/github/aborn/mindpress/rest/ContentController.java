@@ -2,6 +2,7 @@ package com.github.aborn.mindpress.rest;
 
 import com.github.aborn.mindpress.domain.Content;
 import com.github.aborn.mindpress.inf.base.BaseResponse;
+import com.github.aborn.mindpress.inf.utils.MarkdownUtils;
 import com.github.aborn.mindpress.service.ContentService;
 import com.github.aborn.mindpress.service.dto.ContentDto;
 import com.github.aborn.mindpress.service.dto.ContentQueryCriteria;
@@ -48,6 +49,9 @@ public class ContentController {
                 res.setMsg("file doesn't exists.");
             }
         } else {
+            resources.setCreateBy("aborn");
+            resources.setUpdateBy("aborn");
+            resources.setArticleid(MarkdownUtils.getId(resources.getContent()));
             dtoRes = contentService.create(resources);
         }
         return new ResponseEntity<>(res, HttpStatus.CREATED);
