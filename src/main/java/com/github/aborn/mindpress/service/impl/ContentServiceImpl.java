@@ -95,6 +95,9 @@ public class ContentServiceImpl implements ContentService {
         ContentDto contentDto = contentMapper.toDto(contentRepository.save(resources.getContentDomain()));
         MarkdownMeta markdownMeta = metaRepository.findByArticleid(resources.getArticleid()).orElseGet(MarkdownMeta::new);
         markdownMeta.copyFromVo(resources);
+        if (markdownMeta.getDesc() == null) {
+            markdownMeta.setDesc(markdownMeta.getTitle());
+        }
         MarkdownMetaDto metaDto = metaMapper.toDto(metaRepository.save(markdownMeta));
         return new ContentVo(contentDto, metaDto);
     }
