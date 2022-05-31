@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 @Api(tags = "markdown space管理")
 @RequestMapping("/api/mindpress/space")
-public class MarkdownSpaceController {
+public class SpaceController {
 
     private final MarkdownSpaceService markdownSpaceService;
 

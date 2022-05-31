@@ -21,6 +21,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -68,10 +69,11 @@ public class ContentServiceImpl implements ContentService {
 
     @Override
     public ContentVo queryContentVo(String articleid) {
-        Optional<Content> optionalContent = contentRepository.findByArticleid(articleid);
-        if (optionalContent.isPresent()) {
-            MarkdownMeta meta = metaRepository.findByArticleid(articleid).get();
-            return new ContentVo(contentMapper.toDto(optionalContent.get()), metaMapper.toDto(meta));
+
+        Optional<MarkdownMeta> optionalMeta = metaRepository.findByArticleid(articleid);
+        if (optionalMeta.isPresent()) {
+            Content content = contentRepository.findByArticleid(articleid).get();
+            return new ContentVo(contentMapper.toDto(content), metaMapper.toDto(optionalMeta.get()));
         } else {
             return null;
         }
@@ -98,6 +100,7 @@ public class ContentServiceImpl implements ContentService {
         if (markdownMeta.getDesc() == null) {
             markdownMeta.setDesc(markdownMeta.getTitle());
         }
+        markdownMeta.updateDefaultSpace();
         MarkdownMetaDto metaDto = metaMapper.toDto(metaRepository.save(markdownMeta));
         return new ContentVo(contentDto, metaDto);
     }
@@ -112,6 +115,8 @@ public class ContentServiceImpl implements ContentService {
 
         MarkdownMeta markdownMeta = metaRepository.findByArticleid(resources.getArticleid()).orElseGet(MarkdownMeta::new);
         markdownMeta.copyFromVo(resources);
+        markdownMeta.setUpdateTime(new Timestamp(System.currentTimeMillis()));
+        markdownMeta.updateDefaultSpace();
         metaRepository.save(markdownMeta);
     }
 

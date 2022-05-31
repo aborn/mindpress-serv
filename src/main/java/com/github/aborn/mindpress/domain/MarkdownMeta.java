@@ -6,6 +6,7 @@ import com.github.aborn.mindpress.inf.base.BaseEntity;
 import com.github.aborn.mindpress.service.dto.vo.ContentVo;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import org.apache.commons.lang3.StringUtils;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -61,5 +62,11 @@ public class MarkdownMeta extends BaseEntity implements Serializable {
     public void copyFromVo(ContentVo source) {
         BeanUtil.copyProperties(source, this, CopyOptions.create().setIgnoreNullValue(true));
         this.isPublic = source.isPub() ? 1 : 0;
+    }
+
+    public void updateDefaultSpace() {
+        if (StringUtils.isBlank(this.space)) {
+            this.space = "default";
+        }
     }
 }

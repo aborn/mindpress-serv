@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 @Api(tags = "Markdown meta infos")
 @RequestMapping("/api/mindpress/meta")
-public class MarkdownMetaController {
+public class MetaController {
 
     private final MarkdownMetaService markdownMetaService;
 

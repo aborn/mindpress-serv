@@ -15,16 +15,22 @@ import java.io.Serializable;
  * @date 2022/05/30 21:37
  */
 @Data
-public class ContentVo extends ContentDto implements Serializable {
+public class ContentVo extends MarkdownMetaDto implements Serializable {
+
     private static final long serialVersionUID = 2371591328857612229L;
 
-    public ContentVo() {}
+    public ContentVo() {
+    }
 
     public ContentVo(ContentDto dto, MarkdownMetaDto metaDto) {
-        BeanUtil.copyProperties(dto, this, CopyOptions.create().setIgnoreNullValue(true));
-        if (metaDto != null) {
-            BeanUtil.copyProperties(metaDto, this, CopyOptions.create().setIgnoreNullValue(true));
-        }
+        BeanUtil.copyProperties(metaDto, this, CopyOptions.create().setIgnoreNullValue(true));
+
+        CopyOptions copyOptions = CopyOptions.create();
+        copyOptions.setIgnoreNullValue(true);
+        // 以下4个字段，以 meta表里的数据为准
+        copyOptions.setIgnoreProperties("createBy", "updateBy", "createTime", "updateTime");
+        BeanUtil.copyProperties(dto, this, copyOptions);
+
         this.pub = metaDto.getIsPublic() != 0;
     }
 
@@ -35,25 +41,7 @@ public class ContentVo extends ContentDto implements Serializable {
         return content;
     }
 
-    /**
-     * title
-     */
-    private String title;
-
-    /**
-     * description
-     */
-    private String desc;
-
-    /**
-     * description
-     */
-    private String tags;
-
-    /**
-     * the space file belongs to
-     */
-    private String space;
+    private String content;
 
     /**
      * is public
