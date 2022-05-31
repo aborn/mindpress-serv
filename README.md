@@ -2,16 +2,17 @@
 [mindpress](https://github.com/aborn/mindpress) servce java language implementation.
 
 ## How to deploy
-1. config your db  
+1. config your db   
    chang your db info /src/main/resources/*.yml
-2. create tables 
-   using following ddl to create tables)
-3. start it. (boot your app)
+2. create tables  
+   using following ddl to create tables
+3. start it.  
+   boot your app.
 
 ## Create MYSQL tables (DDL)
 
-1. **md_markdown_content**
-url: **/api/mindpress/content**
+1. **md_markdown_content**  
+url: */api/mindpress/content*
 ```sql
 CREATE TABLE `md_markdown_content` (
   `id` bigint NOT NULL AUTO_INCREMENT COMMENT 'ID',
@@ -27,8 +28,8 @@ CREATE TABLE `md_markdown_content` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ROW_FORMAT=DYNAMIC COMMENT='Markdown content info'
 ```
 
-2. **md_markdown_meta**
-url: **/api/mindpress/meta**
+2. **md_markdown_meta**  
+url: */api/mindpress/meta*
 ```sql
 CREATE TABLE `md_markdown_meta` (
   `id` bigint NOT NULL AUTO_INCREMENT COMMENT 'ID',
@@ -48,8 +49,8 @@ CREATE TABLE `md_markdown_meta` (
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ROW_FORMAT=DYNAMIC COMMENT='Markdown meta infos'
 ```
 
-3. **md_markdown_space**
-url: **/api/mindpress/space**
+3. **md_markdown_space**  
+url: */api/mindpress/space*
 ```sql
 CREATE TABLE `md_markdown_space` (
   `id` bigint NOT NULL AUTO_INCREMENT COMMENT 'ID',
