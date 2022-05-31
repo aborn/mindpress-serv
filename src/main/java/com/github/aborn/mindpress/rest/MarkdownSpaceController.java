@@ -3,15 +3,14 @@ package com.github.aborn.mindpress.rest;
 import com.github.aborn.mindpress.domain.MarkdownSpace;
 import com.github.aborn.mindpress.service.MarkdownSpaceService;
 import com.github.aborn.mindpress.service.dto.MarkdownSpaceQueryCriteria;
-import org.springframework.data.domain.Pageable;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import io.swagger.annotations.*;
-import java.io.IOException;
-import javax.servlet.http.HttpServletResponse;
 
 /**
  * @author aborn
@@ -20,7 +19,7 @@ import javax.servlet.http.HttpServletResponse;
 @RestController
 @RequiredArgsConstructor
 @Api(tags = "markdown space管理")
-@RequestMapping("/api/markdownSpace")
+@RequestMapping("/api/mindpress/space")
 public class MarkdownSpaceController {
 
     private final MarkdownSpaceService markdownSpaceService;

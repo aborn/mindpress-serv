@@ -25,7 +25,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequiredArgsConstructor
 @Api(tags = "Markdown file content controller")
-@RequestMapping("/api/content")
+@RequestMapping("/api/mindpress/content")
 public class ContentController {
 
     private final ContentService contentService;

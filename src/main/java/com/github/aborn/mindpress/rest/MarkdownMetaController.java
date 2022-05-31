@@ -18,8 +18,8 @@ import org.springframework.web.bind.annotation.*;
  **/
 @RestController
 @RequiredArgsConstructor
-@Api(tags = "Markdown meta infos管理")
-@RequestMapping("/api/markdownMeta")
+@Api(tags = "Markdown meta infos")
+@RequestMapping("/api/mindpress/meta")
 public class MarkdownMetaController {
 
     private final MarkdownMetaService markdownMetaService;

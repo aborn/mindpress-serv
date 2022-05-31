@@ -1,24 +1,26 @@
 # mindpress-serv
-mindpress servce (java)
+[mindpress](https://github.com/aborn/mindpress) servce java language implementation.
 
-## how to deploy
-1. config your db
-2. create tables
-3. start it.
+## How to deploy
+1. config your db  
+   chang your db info /src/main/resources/*.yml
+2. create tables 
+   using following ddl to create tables)
+3. start it. (boot your app)
 
-## mysql tables
+## Create MYSQL tables (DDL)
 
 1. **md_markdown_content**
-
+url: **/api/mindpress/content**
 ```sql
 CREATE TABLE `md_markdown_content` (
   `id` bigint NOT NULL AUTO_INCREMENT COMMENT 'ID',
   `articleid` varchar(255) NOT NULL COMMENT 'markdown article uniq id',
   `content` text COMMENT 'Markdown content',
-  `create_by` varchar(255) DEFAULT NULL COMMENT '创建者，文章作者',
-  `update_by` varchar(255) DEFAULT NULL COMMENT '更新者',
-  `create_time` datetime DEFAULT NULL COMMENT '创建日期',
-  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+  `create_by` varchar(255) DEFAULT NULL COMMENT 'caretor',
+  `update_by` varchar(255) DEFAULT NULL COMMENT 'updater',
+  `create_time` datetime DEFAULT NULL COMMENT 'create time',
+  `update_time` datetime DEFAULT NULL COMMENT 'update time',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE KEY `uniq_articleid` (`articleid`),
   KEY `log_create_time_index` (`create_time`)
@@ -26,7 +28,7 @@ CREATE TABLE `md_markdown_content` (
 ```
 
 2. **md_markdown_meta**
-
+url: **/api/mindpress/meta**
 ```sql
 CREATE TABLE `md_markdown_meta` (
   `id` bigint NOT NULL AUTO_INCREMENT COMMENT 'ID',
@@ -47,7 +49,7 @@ CREATE TABLE `md_markdown_meta` (
 ```
 
 3. **md_markdown_space**
-
+url: **/api/mindpress/space**
 ```sql
 CREATE TABLE `md_markdown_space` (
   `id` bigint NOT NULL AUTO_INCREMENT COMMENT 'ID',
