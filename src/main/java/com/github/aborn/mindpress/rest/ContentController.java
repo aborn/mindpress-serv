@@ -91,6 +91,7 @@ public class ContentController {
     }
 
     @GetMapping(value = "{id}")
+    @CrossOrigin
     public ResponseEntity<Object> queryContent(@PathVariable("id") String articleid) {
         ContentVo contentVo = contentService.queryContentVo(articleid);
 
