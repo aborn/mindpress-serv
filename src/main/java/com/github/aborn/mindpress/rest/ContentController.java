@@ -43,8 +43,9 @@ public class ContentController {
         ContentVo dtoRes = null;
         BaseResponse res = BaseResponse.success("success");
 
+        resources.parseExtInfo();
         if (StringUtils.isNotBlank(resources.getArticleid())) {
-            // update branch
+            // update action
             ContentDto dto = contentService.findByArticleId(resources.getArticleid());
 
             if (dto != null) {
@@ -57,7 +58,7 @@ public class ContentController {
                 res.setMsg("file doesn't exists.");
             }
         } else {
-            // create
+            // create action
             resources.setCreateBy("aborn");
             resources.setUpdateBy("aborn");
             resources.setArticleid(MarkdownUtils.getId(resources.getContent()));

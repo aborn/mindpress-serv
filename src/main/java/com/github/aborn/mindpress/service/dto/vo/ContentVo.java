@@ -7,8 +7,15 @@ import com.github.aborn.mindpress.domain.Content;
 import com.github.aborn.mindpress.service.dto.ContentDto;
 import com.github.aborn.mindpress.service.dto.MarkdownMetaDto;
 import lombok.Data;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.boot.json.JacksonJsonParser;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Map;
 
 /**
  * @author aborn
@@ -46,5 +53,46 @@ public class ContentVo extends MarkdownMetaDto implements Serializable {
     /**
      * is public
      */
-    private boolean pub;
+    private boolean pub = true;
+
+    // only for front-end post, json string
+    private String extInfo;
+
+    public void parseExtInfo() {
+        if (StringUtils.isBlank(this.getExtInfo())) {
+            return;
+        }
+
+        try {
+            Map<String, Object> objectMap = new JacksonJsonParser().parseMap(this.getExtInfo());
+            ExtInfo extInfo = new ExtInfo(objectMap);
+            if (StringUtils.isNotBlank(extInfo.getTitle())) {
+                this.setTitle(extInfo.getTitle());
+            }
+            if (StringUtils.isNotBlank(extInfo.getDate())) {
+                // 2022-05-11 21:00:31
+                try {
+                    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                    Date date = simpleDateFormat.parse(extInfo.getDate());
+                    this.setCreateTime(new Timestamp(date.getTime()));
+                } catch (ParseException e) {
+
+                }
+            }
+
+            if (StringUtils.isNotBlank(extInfo.getTags())) {
+                this.setTags(extInfo.getTags());
+            }
+
+            if (extInfo.getAuthor() != null) {
+                this.setCreateBy(extInfo.getAuthor().getName());
+            }
+
+            if (StringUtils.isNotBlank(extInfo.getDesc())) {
+                this.setDesc(extInfo.getDesc());
+            }
+        } catch (Exception e) {
+
+        }
+    }
 }
