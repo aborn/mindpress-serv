@@ -17,7 +17,7 @@ import java.io.Serializable;
  **/
 @Entity
 @Data
-@Table(name = "md_markdown_space")
+@Table(name = "mp_markdown_space")
 public class MarkdownSpace extends BaseEntity implements Serializable {
 
     @Id

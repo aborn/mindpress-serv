@@ -19,7 +19,7 @@ import java.io.Serializable;
  **/
 @Entity
 @Data
-@Table(name = "md_markdown_meta")
+@Table(name = "mp_markdown_meta")
 public class MarkdownMeta extends BaseEntity implements Serializable {
 
     @Id
@@ -38,7 +38,7 @@ public class MarkdownMeta extends BaseEntity implements Serializable {
     @ApiModelProperty(value = "title")
     private String title;
 
-    @Column(name = "`desc`", nullable = false)
+    @Column(name = "description", nullable = false)
     @NotBlank
     @ApiModelProperty(value = "description")
     private String desc;
@@ -54,6 +54,18 @@ public class MarkdownMeta extends BaseEntity implements Serializable {
     @Column(name = "is_public")
     @ApiModelProperty(value = "is public access, default no")
     private Integer isPublic;
+
+    @Column(name = "status")
+    @ApiModelProperty(value = "status")
+    private Integer status = 0;
+
+    @Column(name = "ref_articleid")
+    @ApiModelProperty(value = "ref article id")
+    private String refArticleid = "";
+
+    @Column(name = "ext")
+    @ApiModelProperty(value = "ext")
+    private String ext = "";
 
     public void copy(MarkdownMeta source) {
         BeanUtil.copyProperties(source, this, CopyOptions.create().setIgnoreNullValue(true));
