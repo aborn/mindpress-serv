@@ -19,4 +19,16 @@ public class MarkdownMetaQueryCriteria {
     // SELECT * FROM md_markdown_meta WHERE FIND_IN_SET('markdown', md_markdown_meta.tags);
     @Query(propName = "tags", type = Query.Type.FIND_IN_SET)
     private String tag;
+
+    @Query(propName = "category")
+    private String cate;
+
+    @Query(propName = "status")
+    private String status;
+
+    @Query
+    private Integer isPublic;
+
+    @Query
+    private String createBy;
 }

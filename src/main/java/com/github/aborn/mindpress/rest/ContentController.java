@@ -78,8 +78,12 @@ public class ContentController {
                 res.setMsg("create file failed. file exists! articleid=" + resources.getArticleid());
                 res.setCode(502);
                 res.setSuccess(false);
+            } catch (Exception e) {
+                res.addExt("articleid", resources.getArticleid());
+                res.setMsg("create file exception. articleid=" + resources.getArticleid());
+                res.setCode(503);
+                res.setSuccess(false);
             }
-
         }
         return new ResponseEntity<>(res, HttpStatus.CREATED);
     }
