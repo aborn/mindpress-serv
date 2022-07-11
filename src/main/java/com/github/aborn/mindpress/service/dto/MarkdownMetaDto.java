@@ -46,4 +46,12 @@ public class MarkdownMetaDto extends BaseDTO implements Serializable {
      * is public access, default no
      */
     private Integer isPublic;
+
+    private String category;
+
+    private Integer status;
+
+    private String refArticleid;
+
+    private String ext;
 }

@@ -24,6 +24,8 @@ import java.util.Map;
 @Data
 public class ContentVo extends MarkdownMetaDto implements Serializable {
 
+    public static final int MAX_DESC_LENGTH = 1000;
+
     private static final long serialVersionUID = 2371591328857612229L;
 
     public ContentVo() {
@@ -59,6 +61,10 @@ public class ContentVo extends MarkdownMetaDto implements Serializable {
     private String extInfo;
 
     public void parseExtInfo() {
+        if (this.getTags() == null) {
+            this.setTags("");
+        }
+
         if (StringUtils.isBlank(this.getExtInfo())) {
             return;
         }
@@ -89,7 +95,11 @@ public class ContentVo extends MarkdownMetaDto implements Serializable {
             }
 
             if (StringUtils.isNotBlank(extInfo.getDesc())) {
-                this.setDesc(extInfo.getDesc());
+                String desc = extInfo.getDesc();
+                if (extInfo.getDesc().length() > MAX_DESC_LENGTH) {
+                    desc = desc.substring(0, MAX_DESC_LENGTH);
+                }
+                this.setDesc(desc);
             }
         } catch (Exception e) {
 
