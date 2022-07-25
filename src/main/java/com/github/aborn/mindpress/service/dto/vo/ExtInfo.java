@@ -35,7 +35,7 @@ public class ExtInfo {
         this.permalink = (String) objectMap.get("permalink");
         this.desc = (String) objectMap.get("desc");
         LinkedHashMap map = (LinkedHashMap) objectMap.get("author");
-        if (map.containsKey("name")) {
+        if (map != null && map.containsKey("name")) {
             this.author = new ExtInfoAuthor();
             this.author.setName((String) map.get("name"));
             this.author.setLink((String) map.get("link"));

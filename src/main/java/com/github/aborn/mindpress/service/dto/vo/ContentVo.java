@@ -102,7 +102,7 @@ public class ContentVo extends MarkdownMetaDto implements Serializable {
                 this.setDesc(desc);
             }
         } catch (Exception e) {
-
+            System.out.println(e.getMessage());
         }
     }
 }
